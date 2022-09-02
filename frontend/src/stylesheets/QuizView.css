@@ -16,13 +16,13 @@
 }
 
 .play-category:hover {
-    color: dodgerblue;
+    color: green;
 }
 
 .button {
     width: 100px;
     margin-top: 5px;
-    background-color: dodgerblue;
+    background-color: green;
     color: white;
     padding: 3px 5px;
     align-self: center;
