@@ -15,24 +15,32 @@ class TriviaTestCase(unittest.TestCase):
         """Define test variables and initialize app."""
         self.app = create_app()
         self.client = self.app.test_client
-        self.database_name = "trivia_test"
-        self.database_path = "postgres://{}/{}".format('localhost:5432', self.database_name)
+        self.database_name = os.getenv('DB_NAME', 'trivia_test')
+        self.database_user = os.getenv('DB_USER', 'postgres')
+        self.database_password = os.getenv('DB_PASSWORD', 'postgres')
+        self.database_host = os.getenv('DB_HOST', '127.0.0.1:5433')
+
+        self.database_path = "postgres://{}/{}".format(
+            self.database_host,
+            self.database_name
+        )
+
         # self.database_path = 'postgresql://{}:{}@{}/{}'.format(
-        #     'lite',
-        #     '123456789',
-        #     'localhost:5433',
+        #     self.database_user,
+        #     self.database_password,
+        #     self.database_host,
         #     self.database_name)
 
         setup_db(self.app, self.database_path)
 
-        # use to create 
+        # use to create
         # new question
         self.new_data = {
             "question": "Heres a new question string",
             "answer": "Heres a new answer string",
             "difficulty": 1,
             "category": 3
-            }
+        }
 
         self.search_data = {
             "searchTerm": "this is the term the user is looking for",
@@ -49,7 +57,7 @@ class TriviaTestCase(unittest.TestCase):
             self.db.init_app(self.app)
             # create all tables
             self.db.create_all()
-    
+
     def tearDown(self):
         """Executed after reach test"""
         pass
@@ -58,6 +66,7 @@ class TriviaTestCase(unittest.TestCase):
     TODO
     Write at least one test for each test for successful operation and for expected errors.
     """
+
     def test_get_categories(self):
         res = self.client().get('http://127.0.0.1:5000/categories')
         res_data = res.get_json()
@@ -65,7 +74,12 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(res_data["categories"])
 
-    
+    def test_405_get_categories(self):
+        res = self.client().post('http://127.0.0.1:5000/categories')
+        res_data = res.get_json()
+
+        self.assertEqual(res.status_code, 405)
+
     def test_get_questions(self):
         res = self.client().get(f'http://127.0.0.1:5000/questions?page={0}')
         res_data = res.get_json()
@@ -76,13 +90,13 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(len(res_data["questions"]))
 
     def test_422_get_questions(self):
-        res = self.client().get(f'http://127.0.0.1:5000/questions?page={"one"}')
+        res = self.client().get(
+            f'http://127.0.0.1:5000/questions?page={"one"}')
         res_data = res.get_json()
 
         self.assertEqual(res.status_code, 422)
         self.assertFalse(res_data["success"])
         self.assertEqual(res_data["message"], "unprocessable")
-
 
     def _test_delete_question(self):
         res = self.client().delete("http://127.0.0.1:5000/questions/6")
@@ -97,7 +111,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 500)
         self.assertFalse(res_data["success"])
         self.assertEqual(res_data["message"], "Internal sever error")
-
 
     def test_add_question(self):
         res = self.client().post("http://127.0.0.1:5000/questions",  json=self.new_data)
@@ -114,13 +127,14 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res_data["success"], False)
         self.assertEqual(res_data["message"], "method not allowed")
 
-
     def test_search_question(self):
-        res = self.client().post("http://127.0.0.1:5000/questions?action=search",  json=self.search_data)
+        res = self.client().post(
+            "http://127.0.0.1:5000/questions?action=search",  json=self.search_data)
         self.assertEqual(res.status_code, 200)
 
     def test_422_search_question(self):
-        res = self.client().get("http://127.0.0.1:5000/questions?action=search",  json=self.search_data)
+        res = self.client().get(
+            "http://127.0.0.1:5000/questions?action=search",  json=self.search_data)
         self.assertEqual(res.status_code, 422)
 
     def test_get_questions_by_category(self):
@@ -139,9 +153,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(res_data["question"])
 
     def test_400_get_quizzess(self):
-        # return 400 if id is integer
-        self.quiz_data["quiz_category"]["id"]= 1
-        res = self.client().post("http://127.0.0.1:5000/quizzes", json=self.quiz_data)
+        res = self.client().post("http://127.0.0.1:5000/quizzes")
         self.assertEqual(res.status_code, 400)
 
 

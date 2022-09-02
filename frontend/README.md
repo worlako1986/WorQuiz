@@ -97,8 +97,8 @@ You can optionally update this game play to increase the number of questions or 
   "questions": [
     {
       "id": 1,
-      "question": "This is a question",
-      "answer": "This is an answer",
+      "question": "What boxer's original name is Cassius Clay?",
+      "answer": "Muhammad Ali",
       "difficulty": 5,
       "category": 2
     }
@@ -129,8 +129,8 @@ You can optionally update this game play to increase the number of questions or 
   "questions": [
     {
       "id": 1,
-      "question": "This is a question",
-      "answer": "This is an answer",
+      "question": "Which country won the first ever soccer World Cup in 1930?",
+      "answer": "Uruguay",
       "difficulty": 5,
       "category": 4
     }
@@ -157,9 +157,9 @@ You can optionally update this game play to increase the number of questions or 
 
 ```json
 {
-    'previous_questions': [1, 4, 20, 15]
-    quiz_category': 'current category'
- }
+  "previous_questions": [1, 4, 20, 15],
+  "quiz_category": "Entertainment"
+}
 ```
 
 - Returns: a single new question object
@@ -168,7 +168,7 @@ You can optionally update this game play to increase the number of questions or 
 {
   "question": {
     "id": 1,
-    "question": "This is a question",
+    "question": "Who invented Peanut Butter?",
     "answer": "This is an answer",
     "difficulty": 5,
     "category": 4
@@ -185,8 +185,8 @@ You can optionally update this game play to increase the number of questions or 
 
 ```json
 {
-  "question": "Heres a new question string",
-  "answer": "Heres a new answer string",
+  "question": "Who invented Peanut Butter?",
+  "answer": "George Washington Carver",
   "difficulty": 1,
   "category": 3
 }
@@ -214,8 +214,8 @@ You can optionally update this game play to increase the number of questions or 
   "questions": [
     {
       "id": 1,
-      "question": "This is a question",
-      "answer": "This is an answer",
+      "question": "Which dung beetle was worshipped by the ancient Egyptians?",
+      "answer": "Scarab",
       "difficulty": 5,
       "category": 5
     }
