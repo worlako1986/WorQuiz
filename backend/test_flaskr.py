@@ -18,7 +18,7 @@ class TriviaTestCase(unittest.TestCase):
         self.database_name = os.getenv('DB_NAME', 'trivia_test')
         self.database_user = os.getenv('DB_USER', 'postgres')
         self.database_password = os.getenv('DB_PASSWORD', 'postgres')
-        self.database_host = os.getenv('DB_HOST', '127.0.0.1:5433')
+        self.database_host = os.getenv('DB_HOST', '127.0.0.1:5432')
 
         self.database_path = "postgres://{}/{}".format(
             self.database_host,
@@ -96,7 +96,7 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 422)
         self.assertFalse(res_data["success"])
-        self.assertEqual(res_data["message"], "unprocessable")
+        self.assertEqual(res_data["message"], "Unprocessable")
 
     def _test_delete_question(self):
         res = self.client().delete("http://127.0.0.1:5000/questions/6")
@@ -110,7 +110,7 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 500)
         self.assertFalse(res_data["success"])
-        self.assertEqual(res_data["message"], "Internal sever error")
+        self.assertEqual(res_data["message"], "Internal Sever Error")
 
     def test_add_question(self):
         res = self.client().post("http://127.0.0.1:5000/questions",  json=self.new_data)
@@ -125,7 +125,7 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 405)
         self.assertEqual(res_data["success"], False)
-        self.assertEqual(res_data["message"], "method not allowed")
+        self.assertEqual(res_data["message"], "Method Not Allowed")
 
     def test_search_question(self):
         res = self.client().post(

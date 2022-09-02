@@ -6,7 +6,7 @@ import json
 database_name = os.getenv('DB_NAME', 'trivia')
 database_user = os.getenv('DB_USER', 'postgres')
 database_password = os.getenv('DB_PASSWORD', 'postgres')
-database_host = os.getenv('DB_HOST', '127.0.0.1:5433')
+database_host = os.getenv('DB_HOST', '127.0.0.1:5432')
 
 database_path = 'postgresql://{}/{}'.format(database_host, database_name)
 # database_path = 'postgresql://{}:{}@{}/{}'.format(

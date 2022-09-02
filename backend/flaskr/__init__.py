@@ -242,7 +242,6 @@ def create_app(test_config=None):
                 "question": quizzes[quiz_index]
             })
         except Exception as e:
-            print(str(e))
             abort(400)
 
     """
