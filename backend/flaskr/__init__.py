@@ -235,11 +235,11 @@ def create_app(test_config=None):
             # Format quizzes
             quizzes = [quiz.format() for quiz in quizzes_query]
             # Get current quiz index
-            quiz_index = random.randint(0, len(quizzes) - 1)
+            quiz_index = random.randint(0, len(quizzes) - 1) if quizzes else 0
 
             return jsonify({
                 "success": True,
-                "question": quizzes[quiz_index]
+                "question": quizzes[quiz_index] if quizzes else None
             })
         except Exception as e:
             abort(400)
